@@ -24,7 +24,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar dark class="pink lighten-2">
+    <v-toolbar dark class="red">
       <v-toolbar-side-icon
         @click.native.stop="drawer = !drawer"
         class="hidden-sm-and-up"></v-toolbar-side-icon>
