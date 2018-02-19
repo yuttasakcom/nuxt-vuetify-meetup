@@ -65,6 +65,27 @@
 
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
+              <h4>Choose a Data & Time</h4>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm12 offset-sm3 class="mb-2">
+              <v-date-picker
+                color="red"
+                locale="th"
+                v-model="date"
+              ></v-date-picker>
+            </v-flex>
+          </v-layout>
+
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
+              <v-time-picker color="red" v-model="time" format="24hr"></v-time-picker>
+            </v-flex>
+          </v-layout>
+
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
               <v-btn
                 class="red white--text"
                 :disabled="!formIsValid"
@@ -80,14 +101,24 @@
 </template>
 
 <script>
+import moment from 'moment-timezone'
 export default {
   data() {
     return {
       title: '',
       location: '',
       imageUrl: '',
-      description: ''
+      description: '',
+      date: '',
+      time: new Date()
     }
+  },
+  mounted() {
+    this.date = new Date()
+      .toLocaleDateString('en-au')
+      .split('/')
+      .reverse()
+      .join('-')
   },
   computed: {
     formIsValid() {
@@ -95,8 +126,29 @@ export default {
         this.title !== '' &&
         this.location !== '' &&
         this.imageUrl !== '' &&
-        this.description !== ''
+        this.description !== '' &&
+        this.date !== '' &&
+        this.time !== ''
       )
+    },
+    submittableDateTime() {
+      const date = new Date(this.date)
+      if (typeof this.time === 'string') {
+        const hours = this.time.match(/^(\d+)/)[1]
+        const minutes = this.time.match(/:(\d+)/)[1]
+        date.setHours(hours)
+        date.setMinutes(minutes)
+      } else {
+        date.setHours(this.time.getHours())
+        date.setMinutes(this.time.getMinutes())
+      }
+
+      // Asia/Bangkok TimeZone
+      let tz = moment(date)
+      return tz.tz('Asia/Bangkok').format()
+
+      // US Timezone
+      // return date
     }
   },
   methods: {
@@ -109,7 +161,7 @@ export default {
         location: this.location,
         imageUrl: this.imageUrl,
         description: this.description,
-        date: new Date()
+        date: this.submittableDateTime
       }
       this.$store.dispatch('createMeetup', meetupData)
       this.$router.push('/meetups')

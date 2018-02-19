@@ -12,14 +12,18 @@ const createStore = () =>
             'https://www.ediblemanhattan.com/wp-content/uploads/2016/04/header-new-york.jpg',
           id: 'aaaaa1',
           title: 'Meetup in New York',
-          date: '2017-07-17'
+          date: '2017-07-17',
+          location: 'New York',
+          description: 'Test description'
         },
         {
           imageUrl:
             'https://www.thetimes.co.uk/travel/s3/growthtravel-prod/uploads/2017/12/Bangkok_skyline_getty-1500x792.jpg',
           id: 'aaaaa2',
           title: 'Meetup in Bangkok',
-          date: '2017-07-19'
+          date: '2017-07-19',
+          location: 'Bangkok',
+          description: 'Test description'
         }
       ],
       user: {
