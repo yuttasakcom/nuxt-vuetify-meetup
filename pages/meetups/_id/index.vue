@@ -5,15 +5,15 @@
               <v-card>
 
                   <v-card-title>
-                      <h3 class="red--text">My Meetup</h3>
+                      <h3 class="red--text">{{ meetup.title }}</h3>
                   </v-card-title>
 
-                  <v-card-media src="https://www.ediblemanhattan.com/wp-content/uploads/2016/04/header-new-york.jpg" height="400px">
+                  <v-card-media :src="meetup.imageUrl" height="400px">
                   </v-card-media>
 
                   <v-card-text>
                       <div class="info--text">
-                          17th July 2017 - Where it takes place
+                          {{ meetup.date }} - Where it takes place
                       </div>
                       <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, consequuntur accusantium nemo cumque libero sit? Sapiente accusamus vero dolor atque?</div>
                   </v-card-text>
@@ -27,3 +27,13 @@
       </v-layout>
   </v-container>
 </template>
+
+<script>
+export default {
+  computed: {
+    meetup() {
+      return this.$store.getters.loadedMeetup(this.$route.params.id)
+    }
+  }
+}
+</script>
