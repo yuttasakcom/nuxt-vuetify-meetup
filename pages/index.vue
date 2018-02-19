@@ -37,22 +37,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      meetups: [
-        {
-          imageUrl:
-            'https://www.ediblemanhattan.com/wp-content/uploads/2016/04/header-new-york.jpg',
-          id: 'aaaaa1',
-          title: 'Meetup in New York'
-        },
-        {
-          imageUrl:
-            'https://www.thetimes.co.uk/travel/s3/growthtravel-prod/uploads/2017/12/Bangkok_skyline_getty-1500x792.jpg',
-          id: 'aaaaa2',
-          title: 'Meetup in Bangkok'
-        }
-      ]
+  computed: {
+    meetups() {
+      return this.$store.getters.featuredMeetups
     }
   },
   methods: {
