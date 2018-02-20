@@ -25,8 +25,9 @@ module.exports = {
   /*
   ** Build configuration
   */
+  //, 'firebase-auth', 'vuexfire'
   build: {
-    vendor: ['~/plugins/vuetify.js', 'firebase', 'firebase-auth', 'vuexfire'],
+    vendor: ['~/plugins/vuetify.js', 'firebase'],
     extractCSS: true,
     /*
     ** Run ESLint on save
@@ -42,6 +43,14 @@ module.exports = {
       }
     }
   },
-  plugins: ['~/plugins/vuetify.js', '~/plugins/date.js', '~/plugins/auth'],
-  css: ['~/assets/styles/app.styl']
+  plugins: [
+    '~plugins/vuetify.js',
+    '~plugins/date.js',
+    '~plugins/auth.js',
+    '~plugins/core-components.js'
+  ],
+  css: ['~/assets/styles/app.styl'],
+  transition: {
+    name: 'page'
+  }
 }

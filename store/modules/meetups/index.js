@@ -1,42 +1,63 @@
+import firebase from 'firebase'
+
 export default {
   state: {
-    loadedMeetups: [
-      {
-        imageUrl:
-          'https://www.ediblemanhattan.com/wp-content/uploads/2016/04/header-new-york.jpg',
-        id: 'aaaaa1',
-        title: 'Meetup in New York',
-        date: new Date(),
-        location: 'New York',
-        description: 'Test description'
-      },
-      {
-        imageUrl:
-          'https://www.thetimes.co.uk/travel/s3/growthtravel-prod/uploads/2017/12/Bangkok_skyline_getty-1500x792.jpg',
-        id: 'aaaaa2',
-        title: 'Meetup in Bangkok',
-        date: new Date(),
-        location: 'Bangkok',
-        description: 'Test description'
-      }
-    ]
+    loadedMeetups: []
   },
   mutations: {
     createMeetup(state, payload) {
       state.loadedMeetups.push(payload)
+    },
+    setLoadedMeetups(state, meetups) {
+      state.loadedMeetups = meetups
     }
   },
   actions: {
+    nuxtServerInit(vuexContext, context) {
+      return firebase
+        .database()
+        .ref('meetups')
+        .once('value')
+        .then(data => {
+          const meetups = []
+          const obj = data.val()
+
+          for (let key in obj) {
+            meetups.push({
+              id: key,
+              title: obj[key].title,
+              description: obj[key].description,
+              imageUrl: obj[key].imageUrl,
+              date: obj[key].date
+            })
+          }
+
+          vuexContext.commit('setLoadedMeetups', meetups)
+          vuexContext.commit('setLoading', false)
+        })
+        .catch(err => {
+          console.log(err)
+          vuexContext.commit('setLoading', true)
+        })
+    },
     createMeetup({ commit }, payload) {
       const meetup = {
-        id: 'test1',
         title: payload.title,
         location: payload.location,
         imageUrl: payload.imageUrl,
         description: payload.description,
         date: payload.date
       }
-      commit('createMeetup', meetup)
+
+      firebase
+        .database()
+        .ref('meetups')
+        .push(meetup)
+        .then(data => {
+          console.log(data)
+          commit('createMeetup', { ...meetup, id: data.key })
+        })
+        .catch(err => console.log(erro))
     }
   },
   getters: {

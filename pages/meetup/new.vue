@@ -103,6 +103,7 @@
 <script>
 import moment from 'moment-timezone'
 export default {
+  middleware: 'auth',
   data() {
     return {
       title: '',

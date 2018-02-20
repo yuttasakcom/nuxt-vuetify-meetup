@@ -10,7 +10,18 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row wrap class="mt-4">
+    <v-layout row>
+      <v-flex xs12 class="text-xs-center">
+        <v-progress-circular
+          indeterminate
+          :size="70"
+          :width="7"
+          color="red"
+          v-if="loading" ></v-progress-circular>
+      </v-flex>
+    </v-layout>
+
+    <v-layout row wrap class="mt-4" v-if="!loading">
       <v-flex xs12>
         <v-carousel style="cursor:pointer">
           <v-carousel-item
@@ -40,11 +51,14 @@ export default {
   computed: {
     meetups() {
       return this.$store.getters.featuredMeetups
+    },
+    loading() {
+      return this.$store.getters.loading
     }
   },
   methods: {
     onLoadMeetup(id) {
-      this.$router.push(`/meetups/${id}`)
+      this.$router.push(`/meetup/${id}`)
     }
   }
 }

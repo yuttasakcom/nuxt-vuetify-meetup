@@ -33,6 +33,7 @@
 
 <script>
 export default {
+  middleware: 'auth',
   computed: {
     meetups() {
       return this.$store.getters.loadedMeetups

@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  middleware: 'auth',
   computed: {
     meetup() {
       return this.$store.getters.loadedMeetup(this.$route.params.id)
