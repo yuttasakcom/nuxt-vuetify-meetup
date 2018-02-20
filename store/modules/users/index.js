@@ -41,7 +41,8 @@ export default {
           commit('setLoading', false)
           const newUser = {
             id: user.uid,
-            registerdMeetups: []
+            registeredMeetups: [],
+            fbKeys: {}
           }
           commit('setUser', newUser)
           // return createNewAccount(user)
@@ -62,7 +63,8 @@ export default {
           commit('setLoading', false)
           const newUser = {
             id: user.uid,
-            registerdMeetups: []
+            registeredMeetups: [],
+            fbKeys: {}
           }
           commit('setUser', newUser)
         })
@@ -79,7 +81,7 @@ export default {
       commit('clearError')
     },
     autoSignIn({ commit }, payload) {
-      commit('setUser', { id: payload.uid, registerdMeetups: [] })
+      commit('setUser', { id: payload.uid, registeredMeetups: [], fbKeys: {} })
     },
     logout({ commit }) {
       firebase.auth().signOut()
