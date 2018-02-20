@@ -64,6 +64,8 @@ export default {
             id: user.uid,
             registerdMeetups: []
           }
+          console.log(user)
+          console.log(user.uid)
           commit('setUser', newUser)
         })
         .catch(err => {
@@ -79,7 +81,7 @@ export default {
       commit('clearError')
     },
     autoSignIn({ commit }, payload) {
-      commit('setUser', { id: payload.id, registerdMeetups: [] })
+      commit('setUser', { id: payload.uid, registerdMeetups: [] })
     },
     logout({ commit }) {
       firebase.auth().signOut()

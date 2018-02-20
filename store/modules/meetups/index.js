@@ -28,7 +28,8 @@ export default {
               title: obj[key].title,
               description: obj[key].description,
               imageUrl: obj[key].imageUrl,
-              date: obj[key].date
+              date: obj[key].date,
+              creatorId: obj[key].creatorId
             })
           }
 
@@ -40,24 +41,46 @@ export default {
           vuexContext.commit('setLoading', true)
         })
     },
-    createMeetup({ commit }, payload) {
+    createMeetup({ commit, getters }, payload) {
       const meetup = {
         title: payload.title,
         location: payload.location,
-        imageUrl: payload.imageUrl,
         description: payload.description,
-        date: payload.date
+        date: payload.date,
+        creatorId: getters.user.id
       }
+
+      let imageUrl
+      let key
 
       firebase
         .database()
         .ref('meetups')
         .push(meetup)
         .then(data => {
-          console.log(data)
-          commit('createMeetup', { ...meetup, id: data.key })
+          key = data.key
+          return key
         })
-        .catch(err => console.log(erro))
+        .then(key => {
+          const filename = payload.image.name
+          const ext = filename.slice(filename.lastIndexOf('.'))
+          return firebase
+            .storage()
+            .ref(`meetups/${key}/.${ext}`)
+            .put(payload.image)
+        })
+        .then(fileData => {
+          imageUrl = fileData.metadata.downloadURLs[0]
+          return firebase
+            .database()
+            .ref('meetups')
+            .child(key)
+            .update({ imageUrl: imageUrl })
+        })
+        .then(() => {
+          commit('createMeetup', { ...meetup, id: key, imageUrl: imageUrl })
+        })
+        .catch(err => console.log(error))
     }
   },
   getters: {
