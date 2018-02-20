@@ -64,8 +64,6 @@ export default {
             id: user.uid,
             registerdMeetups: []
           }
-          console.log(user)
-          console.log(user.uid)
           commit('setUser', newUser)
         })
         .catch(err => {

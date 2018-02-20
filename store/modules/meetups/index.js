@@ -10,6 +10,21 @@ export default {
     },
     setLoadedMeetups(state, meetups) {
       state.loadedMeetups = meetups
+    },
+    updateMeetup(state, payload) {
+      const meetup = state.loadedMeetups.find(
+        meetup => meetup.id === payload.id
+      )
+
+      if (payload.title) {
+        meetup.title = payload.title
+      }
+      if (payload.description) {
+        meetup.description = payload.description
+      }
+      if (payload.date) {
+        meetup.date = payload.date
+      }
     }
   },
   actions: {
@@ -29,6 +44,7 @@ export default {
               description: obj[key].description,
               imageUrl: obj[key].imageUrl,
               date: obj[key].date,
+              location: obj[key].location,
               creatorId: obj[key].creatorId
             })
           }
@@ -81,6 +97,35 @@ export default {
           commit('createMeetup', { ...meetup, id: key, imageUrl: imageUrl })
         })
         .catch(err => console.log(error))
+    },
+    updateMeetup({ commit }, payload) {
+      commit('setLoading', true)
+      const updateObj = {}
+      if (payload.title) {
+        updateObj.title = payload.title
+      }
+
+      if (payload.description) {
+        updateObj.description = payload.description
+      }
+
+      if (payload.date) {
+        updateObj.date = payload.date
+      }
+
+      firebase
+        .database()
+        .ref('meetups')
+        .child(payload.id)
+        .update(updateObj)
+        .then(() => {
+          commit('setLoading', false)
+          commit('updateMeetup', payload)
+        })
+        .catch(err => {
+          console.log(err)
+          commit('setLoading', false)
+        })
     }
   },
   getters: {
