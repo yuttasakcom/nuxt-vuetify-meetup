@@ -9,3 +9,9 @@ npm-debug.log
 
 # Nuxt generate
 dist
+
+# dont show the firebase file
+firebaseConfig.js
+
+# hide the compiled service worker
+sw.*

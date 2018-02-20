@@ -13,10 +13,13 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "firebase": "^4.10.0",
+    "firebase-auth": "^0.1.2",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "nuxt": "^1.0.0",
-    "vuetify": "^1.0.1"
+    "vuetify": "^1.0.1",
+    "vuexfire": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",

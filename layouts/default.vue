@@ -62,7 +62,7 @@ export default {
       drawer: false,
       menuItems: [
         { icon: 'supervisor_account', title: 'View Meetups', to: '/meetups' },
-        { icon: 'room', title: 'Organize Meetup', to: '/meetups/new' },
+        { icon: 'room', title: 'Organize Meetup', to: '/meetup/new' },
         { icon: 'person', title: 'Profile', to: '/users/profile' },
         { icon: 'face', title: 'Sign up', to: '/users/signup' },
         { icon: 'lock_open', title: 'Sign in', to: '/users/signin' }

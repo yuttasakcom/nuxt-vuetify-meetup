@@ -2,11 +2,11 @@
   <v-container>
     <v-layout row wrap>
       <v-flex xs12 sm6 class="text-xs-center text-sm-right">
-        <v-btn large router to="/meetups" class="blue" dark>Explore Meetups</v-btn>
+        <v-btn large router exact to="/meetups" class="blue" dark active-class>Explore Meetups</v-btn>
       </v-flex>
 
       <v-flex xs12 sm6 class="text-xs-center text-sm-left">
-        <v-btn large router to="/meetups" class="blue" dark>Organize Meetup</v-btn>
+        <v-btn large router exact to="/meetup/new" class="blue" dark active-class>Organize Meetup</v-btn>
       </v-flex>
     </v-layout>
 

@@ -21,12 +21,12 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#FFF' },
   /*
   ** Build configuration
   */
   build: {
-    vendor: ['~/plugins/vuetify.js'],
+    vendor: ['~/plugins/vuetify.js', 'firebase', 'firebase-auth', 'vuexfire'],
     extractCSS: true,
     /*
     ** Run ESLint on save
@@ -42,6 +42,6 @@ module.exports = {
       }
     }
   },
-  plugins: ['~/plugins/vuetify.js'],
+  plugins: ['~/plugins/vuetify.js', '~/plugins/date.js', '~/plugins/auth'],
   css: ['~/assets/styles/app.styl']
 }
