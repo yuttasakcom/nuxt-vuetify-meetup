@@ -1,9 +1,9 @@
 import Vue from 'vue'
 
 import Alert from '@/components/UI/Alert'
-import EditMeetupDetailsDialog from '@/components/Meetups/Meetup/EditMeetupDetailsDialog'
-import EditMeetupDateDialog from '@/components/Meetups/Meetup/EditMeetupDateDialog'
-import EditMeetupTimeDialog from '@/components/Meetups/Meetup/EditMeetupTimeDialog'
+import EditMeetupDetailsDialog from '@/components/Meetup/Edit/EditMeetupDetailsDialog'
+import EditMeetupDateDialog from '@/components/Meetup/Edit/EditMeetupDateDialog'
+import EditMeetupTimeDialog from '@/components/Meetup/Edit/EditMeetupTimeDialog'
 
 Vue.component('Alert', Alert)
 Vue.component('edit-meetup-detail-dialog', EditMeetupDetailsDialog)
