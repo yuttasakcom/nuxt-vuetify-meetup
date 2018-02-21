@@ -57,11 +57,11 @@ export default {
   },
   computed: {
     userIsRegistered() {
-      return (
-        this.$store.getters.user.registeredMeetups.findIndex(
-          meetupId => meetupId === this.meetupId
-        ) >= 0
+      const registeredMeetup = this.$store.getters.user.registeredMeetups.findIndex(
+        meetupId => meetupId === this.meetupId
       )
+
+      return registeredMeetup >= 0
     }
   },
   methods: {

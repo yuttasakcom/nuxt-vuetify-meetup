@@ -25,25 +25,6 @@ export default {
       if (payload.date) {
         meetup.date = payload.date
       }
-    },
-    registerMeetup(state, payload) {
-      const id = payload.id
-      if (
-        state.user.registeredMeetups.findIndex(meetup => meetup.id === id) >= 0
-      ) {
-        return
-      }
-
-      state.user.registeredMeetups.push(id)
-      state.user.fbKeys[id] = payload.fbKey
-    },
-    unregisterMeetup(state, payload) {
-      const registeredMeetups = state.user.registeredMeetups
-      registeredMeetups.splice(
-        registeredMeetups.findIndex(meetup => meetup.id === payload),
-        1
-      )
-      Reflect.deleteProperty(state.user.fbKeys, payload)
     }
   },
   actions: {
@@ -145,50 +126,12 @@ export default {
           console.log(err)
           commit('setLoading', false)
         })
-    },
-    registerMeetup({ commit, getters }, payload) {
-      commit('setLoading', true)
-      const user = getters.user
-      firebase
-        .database()
-        .ref(`/users/${user.id}`)
-        .child('/registrations')
-        .push(payload)
-        .then(data => {
-          commit('setLoading', false)
-          commit('registerMeetup', {
-            id: payload,
-            fbKey: data.key
-          })
-        })
-        .catch(err => {
-          console.log(err)
-          commit('setLoading', false)
-        })
-    },
-    unregisterMeetup({ commit, getters }, payload) {
-      commit('setLoading', true)
-      const user = getters.user
-      if (!user.fbKeys) {
-        return
-      }
-      const fbKey = user.fbKeys[payload]
-      firebase
-        .database()
-        .ref(`/users/${user.id}/registrations`)
-        .child(fbKey)
-        .remove()
-        .then(() => {
-          commit('setLoading', false)
-          commit('unregisterMeetup', payload)
-        })
-        .catch(err => {
-          console.log(err)
-          commit('setLoading', false)
-        })
     }
   },
   getters: {
+    loadedMeetup({ loadedMeetups }) {
+      return meetupId => loadedMeetups.find(meetup => meetup.id === meetupId)
+    },
     loadedMeetups({ loadedMeetups }) {
       return loadedMeetups.sort((a, b) => {
         return a.date > b.date
@@ -196,9 +139,6 @@ export default {
     },
     featuredMeetups(state, getters) {
       return getters.loadedMeetups.slice(0, 5)
-    },
-    loadedMeetup({ loadedMeetups }) {
-      return meetupId => loadedMeetups.find(meetup => meetup.id === meetupId)
     }
   }
 }

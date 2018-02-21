@@ -9,6 +9,7 @@ export default function({ store, redirect }) {
   return firebase.auth().onAuthStateChanged(user => {
     if (user) {
       store.dispatch('autoSignIn', user)
+      store.dispatch('fetchUserData')
     }
   })
 }

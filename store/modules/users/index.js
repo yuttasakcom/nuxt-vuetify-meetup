@@ -28,6 +28,27 @@ export default {
     },
     clearError(state, payload) {
       state.error = null
+    },
+    registerMeetup(state, payload) {
+      const id = payload.id
+      const registeredMeetups = state.user.registeredMeetups.findIndex(
+        meetup => meetup.id === id
+      )
+
+      if (registeredMeetups >= 0) {
+        return
+      }
+
+      state.user.registeredMeetups.push(id)
+      state.user.fbKeys[id] = payload.fbKey
+    },
+    unregisterMeetup(state, payload) {
+      const registeredMeetups = state.user.registeredMeetups
+      registeredMeetups.splice(
+        registeredMeetups.findIndex(meetup => meetup.id === payload),
+        1
+      )
+      Reflect.deleteProperty(state.user.fbKeys, payload)
     }
   },
   actions: {
@@ -83,9 +104,80 @@ export default {
     autoSignIn({ commit }, payload) {
       commit('setUser', { id: payload.uid, registeredMeetups: [], fbKeys: {} })
     },
+    fetchUserData({ commit, getters }) {
+      commit('setLoading', true)
+      firebase
+        .database()
+        .ref(`/users/${getters.user.id}/registrations/`)
+        .once('value')
+        .then(data => {
+          const dataPairs = data.val()
+          let registeredMeetups = []
+          let swappedPairs = {}
+
+          for (let key in dataPairs) {
+            registeredMeetups.push(dataPairs[key])
+            swappedPairs[dataPairs[key]] = key
+          }
+
+          const updateUser = {
+            id: getters.user.id,
+            registeredMeetups,
+            fbKeys: swappedPairs
+          }
+
+          commit('setLoading', false)
+          commit('setUser', updateUser)
+        })
+        .catch(err => {
+          console.log(err)
+          commit('setLoading', false)
+        })
+    },
     logout({ commit }) {
       firebase.auth().signOut()
       commit('setUser', null)
+    },
+    registerMeetup({ commit, getters }, payload) {
+      commit('setLoading', true)
+      const user = getters.user
+      firebase
+        .database()
+        .ref(`/users/${user.id}`)
+        .child('/registrations')
+        .push(payload)
+        .then(data => {
+          commit('setLoading', false)
+          commit('registerMeetup', {
+            id: payload,
+            fbKey: data.key
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          commit('setLoading', false)
+        })
+    },
+    unregisterMeetup({ commit, getters }, payload) {
+      commit('setLoading', true)
+      const user = getters.user
+      if (!user.fbKeys) {
+        return
+      }
+      const fbKey = user.fbKeys[payload]
+      firebase
+        .database()
+        .ref(`/users/${user.id}/registrations`)
+        .child(fbKey)
+        .remove()
+        .then(() => {
+          commit('setLoading', false)
+          commit('unregisterMeetup', payload)
+        })
+        .catch(err => {
+          console.log(err)
+          commit('setLoading', false)
+        })
     }
   },
   getters: {
