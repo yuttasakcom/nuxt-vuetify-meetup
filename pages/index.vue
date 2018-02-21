@@ -37,7 +37,7 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row wrap class="mt-4">
+    <v-layout row wrap class="mt-4" v-if="!loading">
       <v-flex xs12 class="text-xs-center">
        <p>Join our awesome meetups!</p>
       </v-flex>

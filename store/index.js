@@ -5,12 +5,14 @@ Vue.use(Vuex)
 
 import meetup from './meetup'
 import user from './user'
+import shared from './shared'
 
 const createStore = () =>
   new Vuex.Store({
     modules: {
       meetup,
-      user
+      user,
+      shared
     }
   })
 
