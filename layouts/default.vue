@@ -79,13 +79,13 @@ export default {
   computed: {
     menuItems() {
       let items = [
+        { icon: 'supervisor_account', title: 'View Meetups', to: '/meetups' },
         { icon: 'face', title: 'Sign up', to: '/users/signup' },
         { icon: 'lock_open', title: 'Sign in', to: '/users/signin' }
       ]
 
       if (this.userIsAuthenticated) {
         items = [
-          { icon: 'supervisor_account', title: 'View Meetups', to: '/meetups' },
           { icon: 'room', title: 'Organize Meetup', to: '/meetup/new' },
           { icon: 'person', title: 'Profile', to: '/users/profile' }
         ]
