@@ -86,6 +86,7 @@ export default {
 
       if (this.userIsAuthenticated) {
         items = [
+          { icon: 'supervisor_account', title: 'View Meetups', to: '/meetups' },
           { icon: 'room', title: 'Organize Meetup', to: '/meetup/new' },
           { icon: 'person', title: 'Profile', to: '/users/profile' }
         ]
