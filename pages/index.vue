@@ -48,17 +48,12 @@
 
 <script>
 export default {
-  mounted() {
-    this.loading = this.$store.getters.loading
-  },
-  data() {
-    return {
-      loading: true
-    }
-  },
   computed: {
     meetups() {
       return this.$store.getters.featuredMeetups
+    },
+    loading() {
+      return this.$store.getters.loading
     }
   },
   methods: {

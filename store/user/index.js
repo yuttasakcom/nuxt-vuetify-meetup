@@ -12,22 +12,11 @@ import firebase from 'firebase'
 
 export default {
   state: {
-    user: null,
-    loading: false,
-    error: null
+    user: null
   },
   mutations: {
     setUser(state, user) {
       state.user = user
-    },
-    setLoading(state, payload) {
-      state.loading = payload
-    },
-    setError(state, payload) {
-      state.error = payload
-    },
-    clearError(state, payload) {
-      state.error = null
     },
     registerMeetup(state, payload) {
       const id = payload.id
@@ -94,12 +83,6 @@ export default {
           commit('setError', err)
           console.log(err)
         })
-    },
-    setLoading({ commit }, payload) {
-      commit('setLoading', payload)
-    },
-    clearError({ commit }) {
-      commit('clearError')
     },
     autoSignIn({ commit }, payload) {
       commit('setUser', { id: payload.uid, registeredMeetups: [], fbKeys: {} })
@@ -183,12 +166,6 @@ export default {
   getters: {
     user({ user }) {
       return user
-    },
-    loading({ loading }) {
-      return loading
-    },
-    error({ error }) {
-      return error
     },
     userIsAuthenticated({ user }) {
       return user !== null && user !== undefined

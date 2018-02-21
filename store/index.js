@@ -3,14 +3,14 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import meetups from './modules/meetups'
-import users from './modules/users'
+import meetup from './meetup'
+import user from './user'
 
 const createStore = () =>
   new Vuex.Store({
     modules: {
-      meetups,
-      users
+      meetup,
+      user
     }
   })
 

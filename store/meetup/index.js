@@ -2,9 +2,20 @@ import firebase from 'firebase'
 
 export default {
   state: {
-    loadedMeetups: []
+    loadedMeetups: [],
+    loading: false,
+    error: null
   },
   mutations: {
+    setLoading(state, payload) {
+      state.loading = payload
+    },
+    setError(state, payload) {
+      state.error = payload
+    },
+    clearError(state, payload) {
+      state.error = null
+    },
     createMeetup(state, payload) {
       state.loadedMeetups.push(payload)
     },
@@ -126,6 +137,12 @@ export default {
           console.log(err)
           commit('setLoading', false)
         })
+    },
+    setLoading({ commit }, payload) {
+      commit('setLoading', payload)
+    },
+    clearError({ commit }) {
+      commit('clearError')
     }
   },
   getters: {
@@ -139,6 +156,12 @@ export default {
     },
     featuredMeetups(state, getters) {
       return getters.loadedMeetups.slice(0, 5)
+    },
+    loading({ loading }) {
+      return loading
+    },
+    error({ error }) {
+      return error
     }
   }
 }
