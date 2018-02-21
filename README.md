@@ -1,10 +1,24 @@
-# nuxt-vuetify
+# nuxt-vuetify-meetup
 
 > Nuxt.js project
 
 ## Build Setup
 
-``` bash
+```bash
+# clone project
+$ git clone git@github.com:yuttasakcom/nuxt-vuetify-meetup.git && cd nuxt-vuetify-meetup
+
+# create firebaseConfig.js
+$ cp firebaseConfig-example.js firebaseConfig.js
+
+# edit firebaseConfig.js
+apiKey: 'YOUR APIKEY',
+authDomain: 'YOUR AUTH DOMAIN',
+databaseURL: 'YOUR DATABASE URL',
+projectId: 'YOUR PROJECT ID',
+storageBucket: 'YOUR STORAGE BUCKET',
+messagingSenderId: 'YOUR MESSAGING SENDER ID'
+
 # install dependencies
 $ npm install # Or yarn install
 
